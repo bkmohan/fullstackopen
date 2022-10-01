@@ -28,22 +28,22 @@ beforeEach( async () => {
     await Promise.all(promises)
 })
 
-describe("API GET: get all blogs api", () =>{
-    test("blogs are returned as JSON", async () => {
+describe('API GET: get all blogs api', () => {
+    test('blogs are returned as JSON', async () => {
         await api
-        .get('/api/blogs')
-        .expect(200)
-        .expect('Content-Type', /application\/json/)
+            .get('/api/blogs')
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
     })
 
-    test("all blogs are returned", async () => {
+    test('all blogs are returned', async () => {
         const response = await api.get('/api/blogs')
 
         expect(response.status).toBe(200)
         expect(response.body).toHaveLength(helper.initialBlogs.length)
     })
 
-    test("check if specific blog is returned", async () => {
+    test('check if specific blog is returned', async () => {
         const response = await api.get('/api/blogs')
 
         expect(response.status).toBe(200)
@@ -54,26 +54,26 @@ describe("API GET: get all blogs api", () =>{
 })
 
 
-describe("API GET/id: get individual blog api", () => {
-    test("blog has id property", async () => {
+describe('API GET/id: get individual blog api', () => {
+    test('blog has id property', async () => {
         const allBlogs = await helper.blogsInDb()
         const blogToView = allBlogs[1]
 
         expect(blogToView.id).toBeDefined()
     })
 
-    test("blog is returned as JSON", async () => {
+    test('blog is returned as JSON', async () => {
         const allBlogs = await helper.blogsInDb()
         const blogToView = allBlogs[1]
 
         await api
-        .get(`/api/blogs/${blogToView.id}`)
-        .expect(200)
-        .expect('Content-Type', /application\/json/)
+            .get(`/api/blogs/${blogToView.id}`)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
     })
 
-    
-    test("check correct blog is returned", async () => {
+
+    test('check correct blog is returned', async () => {
         const allBlogs = await helper.blogsInDb()
         const blogToView = allBlogs[1]
 
@@ -85,7 +85,7 @@ describe("API GET/id: get individual blog api", () => {
         expect(response.body).toEqual(processedBlogToView)
     })
 
-    test("check non existing blog", async () => {
+    test('check non existing blog', async () => {
         const id = await helper.nonExistingId()
         const response = await api.get(`/api/blogs/${id}`)
 
@@ -95,256 +95,255 @@ describe("API GET/id: get individual blog api", () => {
 })
 
 
-describe("API POST: Add blog api", () => {
+describe('API POST: Add blog api', () => {
     let loginSession
 
     beforeEach( async() => {
-        const {name, username, password} = helper.initalUsers[0]
+        const { name, username, password } = helper.initalUsers[0]
         loginSession = await api
-                        .post('/login')
-                        .send({username, password})
+            .post('/login')
+            .send({ username, password })
     })
 
-    test("blogs count increased by one", async () => {
+    test('blogs count increased by one', async () => {
         const newBlog = {
-            title: "React patterns +1",
-            author: "Michael Chan",
-            url: "https://reactpatterns.com/",
+            title: 'React patterns +1',
+            author: 'Michael Chan',
+            url: 'https://reactpatterns.com/',
             likes: 7,
-          }
-        
+        }
+
         const beforeInsert = await helper.blogsInDb()
         const response = await api
-                            .post('/api/blogs')
-                            .set('Authorization', `Bearer ${loginSession.body.token}`)
-                            .send(newBlog)
-                            .expect(201)
-                            .expect('Content-Type', /application\/json/)
-        
+            .post('/api/blogs')
+            .set('Authorization', `Bearer ${loginSession.body.token}`)
+            .send(newBlog)
+            .expect(201)
+            .expect('Content-Type', /application\/json/)
+
         const afterInsert = await helper.blogsInDb()
-        
+
         expect(afterInsert.length).toBe(beforeInsert.length + 1)
     })
 
-    test("new blog added in proper format", async () => {
+    test('new blog added in proper format', async () => {
         const newBlog = {
-            title: "React patterns +1",
-            author: "Michael Chan",
-            url: "https://reactpatterns.com/",
+            title: 'React patterns +1',
+            author: 'Michael Chan',
+            url: 'https://reactpatterns.com/',
             likes: 7,
-          }
-        
+        }
+
         const response = await api
-                            .post('/api/blogs')
-                            .set('Authorization', `Bearer ${loginSession.body.token}`)
-                            .send(newBlog)
-        
+            .post('/api/blogs')
+            .set('Authorization', `Bearer ${loginSession.body.token}`)
+            .send(newBlog)
+
         expect(response.body).toMatchObject(newBlog)
     })
 
-    test("missing likes", async () => {
+    test('missing likes', async () => {
         const newBlog = {
-            title: "React patterns +1",
-            author: "Michael Chan",
-            url: "https://reactpatterns.com/"
-          }
-        
+            title: 'React patterns +1',
+            author: 'Michael Chan',
+            url: 'https://reactpatterns.com/'
+        }
+
         const response = await api
-                            .post('/api/blogs')
-                            .set('Authorization', `Bearer ${loginSession.body.token}`)
-                            .send(newBlog)
-        
+            .post('/api/blogs')
+            .set('Authorization', `Bearer ${loginSession.body.token}`)
+            .send(newBlog)
+
         newBlog.likes = 0
         expect(response.body).toMatchObject(newBlog)
     })
 
-    test("missing title", async () => {
+    test('missing title', async () => {
         const newBlog = {
-            author: "Michael Chan",
-            url: "https://reactpatterns.com/"
-          }
-        
+            author: 'Michael Chan',
+            url: 'https://reactpatterns.com/'
+        }
+
         await api
             .post('/api/blogs')
             .set('Authorization', `Bearer ${loginSession.body.token}`)
             .send(newBlog)
             .expect(400)
-          
+
     })
 
-    test("missing url", async () => {
+    test('missing url', async () => {
         const newBlog = {
-            title: "React patterns +1",
-            author: "Michael Chan"
-          }
-        
+            title: 'React patterns +1',
+            author: 'Michael Chan'
+        }
+
         const response = await api
-                            .post('/api/blogs')
-                            .set('Authorization', `Bearer ${loginSession.body.token}`)
-                            .send(newBlog)
-                            .expect(400)
-        
+            .post('/api/blogs')
+            .set('Authorization', `Bearer ${loginSession.body.token}`)
+            .send(newBlog)
+            .expect(400)
+
     })
 
-    test("missing autorization token", async () => {
+    test('missing autorization token', async () => {
         const newBlog = {
-            title: "React patterns +1",
-            author: "Michael Chan",
-            url: "https://reactpatterns.com/",
+            title: 'React patterns +1',
+            author: 'Michael Chan',
+            url: 'https://reactpatterns.com/',
             likes: 7,
-          }
-        
+        }
+
         const response = await api
-                            .post('/api/blogs')
-                            .send(newBlog)
-                            .expect(401)
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(401)
     })
 
 })
 
 
-describe("API DELETE: Add blog api", () => {
+describe('API DELETE: Add blog api', () => {
     let loginSession
     let newAddedBlog
 
     beforeEach( async() => {
-        const {name, username, password} = helper.initalUsers[0]
+        const { name, username, password } = helper.initalUsers[0]
         loginSession = await api
-                        .post('/login')
-                        .send({username, password})
-        
+            .post('/login')
+            .send({ username, password })
+
         const newBlog = {
-            title: "React patterns +1",
-            author: "Michael Chan",
-            url: "https://reactpatterns.com/",
+            title: 'React patterns +1',
+            author: 'Michael Chan',
+            url: 'https://reactpatterns.com/',
             likes: 7,
-            }
-        
+        }
+
         newAddedBlog = await api
-                            .post('/api/blogs')
-                            .set('Authorization', `Bearer ${loginSession.body.token}`)
-                            .send(newBlog)
+            .post('/api/blogs')
+            .set('Authorization', `Bearer ${loginSession.body.token}`)
+            .send(newBlog)
 
     })
 
-    test("delete blog, count test", async () => {
+    test('delete blog, count test', async () => {
         const beforeDel = await helper.blogsInDb()
-        
+
         const response = await api
-                            .delete(`/api/blogs/${newAddedBlog.body.id}`)
-                            .set('Authorization', `Bearer ${loginSession.body.token}`)
-                            .expect(204)
-        
+            .delete(`/api/blogs/${newAddedBlog.body.id}`)
+            .set('Authorization', `Bearer ${loginSession.body.token}`)
+            .expect(204)
+
         const afterDel = await helper.blogsInDb()
-        
+
         expect(afterDel.length).toBe(beforeDel  .length - 1)
     })
 
-    test("delete blog, check if proper blog is deleted", async () => {
+    test('delete blog, check if proper blog is deleted', async () => {
         const beforeDel = await helper.blogsInDb()
-        
+
         const response = await api
-                            .delete(`/api/blogs/${newAddedBlog.body.id}`)
-                            .set('Authorization', `Bearer ${loginSession.body.token}`)
-                            .expect(204)
-        
+            .delete(`/api/blogs/${newAddedBlog.body.id}`)
+            .set('Authorization', `Bearer ${loginSession.body.token}`)
+            .expect(204)
+
         const afterDel = await helper.blogsInDb()
-        
+
         const beforeDelIds = beforeDel.map(blog => blog.id)
         const afterDelIds = afterDel.map(blog => blog.id)
 
         expect(afterDelIds).not.toContain(beforeDelIds)
     })
 
-    test("delete blog, without token", async () => {
+    test('delete blog, without token', async () => {
         const beforeDel = await helper.blogsInDb()
-        
+
         const response = await api
-                            .delete(`/api/blogs/${newAddedBlog.body.id}`)
-                            .expect(401)
-        
+            .delete(`/api/blogs/${newAddedBlog.body.id}`)
+            .expect(401)
+
     })
 
-    test("delete blog, by different user", async () => {
-        const {name, username, password} = helper.initalUsers[1]
+    test('delete blog, by different user', async () => {
+        const { name, username, password } = helper.initalUsers[1]
         const loginSession2 = await api
-                        .post('/login')
-                        .send({username, password})
+            .post('/login')
+            .send({ username, password })
 
-        
-        response = await api
-                            .delete(`/api/blogs/${newAddedBlog.body.id}`)
-                            .set('Authorization', `Bearer ${loginSession2.body.token}`)
-                            .expect(401)
+
+        await api
+            .delete(`/api/blogs/${newAddedBlog.body.id}`)
+            .set('Authorization', `Bearer ${loginSession2.body.token}`)
+            .expect(401)
     })
 
 })
 
 
-describe("API PUT: Updatte blog api", () => {
+describe('API PUT: Updatte blog api', () => {
     let loginSession
     let newAddedBlog
 
     beforeEach( async() => {
-        const {name, username, password} = helper.initalUsers[0]
+        const { name, username, password } = helper.initalUsers[0]
         loginSession = await api
-                        .post('/login')
-                        .send({username, password})
+            .post('/login')
+            .send({ username, password })
 
         const newBlog = {
-            title: "React patterns +1",
-            author: "Michael Chan",
-            url: "https://reactpatterns.com/",
+            title: 'React patterns +1',
+            author: 'Michael Chan',
+            url: 'https://reactpatterns.com/',
             likes: 7,
-            }
-        
+        }
+
         newAddedBlog = await api
-                            .post('/api/blogs')
-                            .set('Authorization', `Bearer ${loginSession.body.token}`)
-                            .send(newBlog)
+            .post('/api/blogs')
+            .set('Authorization', `Bearer ${loginSession.body.token}`)
+            .send(newBlog)
     })
-    
-    test("Update blog", async () => {
-        
+
+    test('Update blog', async () => {
+
         const response = await api
-                            .put(`/api/blogs/${newAddedBlog.body.id}`)
-                            .set('Authorization', `Bearer ${loginSession.body.token}`)
-                            .send({likes : 20, title: 'updated title'})  
-                            .expect(201)
-                            
+            .put(`/api/blogs/${newAddedBlog.body.id}`)
+            .set('Authorization', `Bearer ${loginSession.body.token}`)
+            .send({ likes : 20, title: 'updated title' })
+            .expect(201)
+
         const updatedBlog = newAddedBlog.body
         updatedBlog.likes = 20
         updatedBlog.title = 'updated title'
         expect(response.body).toMatchObject(updatedBlog)
     })
 
-    test("Update blog different user", async () => {
+    test('Update blog different user', async () => {
         const initialBlogs = await helper.blogsInDb()
 
-        const {name, username, password} = helper.initalUsers[1]
+        const { name, username, password } = helper.initalUsers[1]
         const loginSession2 = await api
-                        .post('/login')
-                        .send({username, password})
-        
+            .post('/login')
+            .send({ username, password })
+
         const response = await api
-                            .put(`/api/blogs/${newAddedBlog.body.id}`)
-                            .set('Authorization', `Bearer ${loginSession2.body.token}`)
-                            .send({likes : 20, title: 'updated title'})
-                            .expect(401)
-        
+            .put(`/api/blogs/${newAddedBlog.body.id}`)
+            .set('Authorization', `Bearer ${loginSession2.body.token}`)
+            .send({ likes : 20, title: 'updated title' })
+            .expect(401)
+
     })
 
-    test("Update blog without login", async () => {
+    test('Update blog without login', async () => {
         const initialBlogs = await helper.blogsInDb()
-        
+
         const response = await api
-                            .put(`/api/blogs/${newAddedBlog.body.id}`)
-                            .send({likes : 20, title: 'updated title'})
-                            .expect(401)
-        
+            .put(`/api/blogs/${newAddedBlog.body.id}`)
+            .send({ likes : 20, title: 'updated title' })
+            .expect(401)
+
     })
 
-    
 })
 
 afterAll( async () => {

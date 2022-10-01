@@ -5,13 +5,13 @@ const totalLikes = (blogs) => {
 
     return blogs.reduce(reducer, 0)
 }
- 
+
 const favoriteBlog = blogs => {
-    return blogs.length > 0 
-    ? blogs.reduce((acc, curr) => {
-        return curr.likes > acc.likes ? curr : acc
-    })
-    : {}
+    return blogs.length > 0
+        ? blogs.reduce((acc, curr) => {
+            return curr.likes > acc.likes ? curr : acc
+        })
+        : {}
 }
 
 const mostBlogs = (blogs) => {
@@ -21,11 +21,11 @@ const mostBlogs = (blogs) => {
         authors[blog.author] = blog.author in authors ? ++authors[blog.author] : 1
     })
 
-    let maxBlog = 0;
+    let maxBlog = 0
     let mostBlogAuthor = {}
     for(let author in authors){
         if(authors[author] > maxBlog){
-            mostBlogAuthor = {author : author, blogs : authors[author]}
+            mostBlogAuthor = { author : author, blogs : authors[author] }
             maxBlog = authors[author]
         }
     }
@@ -40,11 +40,11 @@ const mostLikes = (blogs) => {
         authors[blog.author] = blog.author in authors ? authors[blog.author] + blog.likes : blog.likes
     })
 
-    let maxLikes= 0;
+    let maxLikes= 0
     let mostLikesAuthor = {}
     for(let author in authors){
         if(authors[author] > maxLikes){
-            mostLikesAuthor = {author : author, likes : authors[author]}
+            mostLikesAuthor = { author : author, likes : authors[author] }
             maxLikes = authors[author]
         }
     }
@@ -53,9 +53,9 @@ const mostLikes = (blogs) => {
 }
 
 
-  module.exports = {
-    totalLikes, 
+module.exports = {
+    totalLikes,
     favoriteBlog,
     mostBlogs,
     mostLikes
-  }
+}

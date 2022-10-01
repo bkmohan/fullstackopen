@@ -2,22 +2,22 @@ const logger = require('./logger')
 const jwt = require('jsonwebtoken')
 
 const tokenExtractor = (request, response, next) => {
-  const authorization = request.get('authorization')
+    const authorization = request.get('authorization')
 
     if(authorization && authorization.toLowerCase().startsWith('bearer ')){
         request.token = authorization.substring(7)
     }
-    else{      
-      request.token = null
+    else{
+        request.token = null
     }
     next()
 }
 
 const userExtractor = (request, response, next) => {
-  const decodedToken = request.token ? jwt.verify(request.token, process.env.SECRET) : null
-  request.userId = decodedToken ? decodedToken.id : null
-  
-  next()
+    const decodedToken = request.token ? jwt.verify(request.token, process.env.SECRET) : null
+    request.userId = decodedToken ? decodedToken.id : null
+
+    next()
 }
 
 const requestLogger = (request, response, next) => {
@@ -29,22 +29,22 @@ const requestLogger = (request, response, next) => {
 }
 
 const unknownEndpoint = (request, response) => {
-    response.status(404).json({'error' : 'unknown endpoint'})
+    response.status(404).json({ 'error' : 'unknown endpoint' })
 }
 
 const errorHandler = (error, request, response, next) => {
     logger.error(error.message)
-  
+
     if (error.name === 'CastError') {
-      return response.status(400).send({ error: 'malformatted id' })
+        return response.status(400).send({ error: 'malformatted id' })
     } else if (error.name === 'ValidationError') {
-      return response.status(400).json({ error: error.message })
+        return response.status(400).json({ error: error.message })
     } else if (error.name === 'JsonWebTokenError'){
-      return response.status(400).json({error : 'authorization token missing'})
+        return response.status(400).json({ error : 'authorization token missing' })
     }
-  
+
     next(error)
-  }
+}
 
 module.exports = {
     requestLogger,

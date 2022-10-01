@@ -4,7 +4,7 @@ const User = require('../models/user')
 
 
 blogsRouter.get('/', async (request, response) => {
-    const blogs = await Blog.find({}).populate('user', {name: 1, username: 1})
+    const blogs = await Blog.find({}).populate('user', { name: 1, username: 1 })
     return response.json(blogs)
 })
 
@@ -29,15 +29,15 @@ blogsRouter.post('/', async (request, response, next) => {
         const body = request.body
 
         if(!request.userId){
-            return response.status(401).json({error : 'token missing or invalid'})
+            return response.status(401).json({ error : 'token missing or invalid' })
         }
 
-        if(!'title' in body){
-            return response.status(400).json({"error" : 'missing url'})
+        if(!('title' in body)){
+            return response.status(400).json({ 'error' : 'missing url' })
         }
 
-        if(!'url' in body){
-            return response.status(400).json({"error" : 'missing url'})
+        if(!('url' in body)){
+            return response.status(400).json({ 'error' : 'missing url' })
         }
 
         const user = await User.findById(request.userId)
@@ -49,22 +49,22 @@ blogsRouter.post('/', async (request, response, next) => {
             likes: body.likes ? body.likes : 0,
             user: user._id
         })
-    
-    
+
+
         const savedBlog = await blog.save()
         user.blogs = user.blogs.concat(savedBlog._id)
         await user.save()
         return response.status(201).json(savedBlog)
     }
     catch(error){
-         next(error)
+        next(error)
     }
 })
 
 blogsRouter.put('/:id', async (request, response, next) => {
     const body = request.body
     const params = Object.keys(body)
-    
+
     const blog = {}
 
     if(params.includes('title')) blog.title = body.title
@@ -74,18 +74,17 @@ blogsRouter.put('/:id', async (request, response, next) => {
 
 
     if(!request.userId){
-            return response.status(401).json({error : 'token missing or invalid'})
-        }
+        return response.status(401).json({ error : 'token missing or invalid' })
+    }
 
     if(blog){
         try{
-            let updatedBlog = await Blog.findOneAndUpdate({_id : request.params.id, user : {_id : request.userId}},
-                                                                body, {new:true})
-        
+            let updatedBlog = await Blog.findOneAndUpdate({ _id : request.params.id, user : { _id : request.userId } }, body, { new:true })
+
             if(!updatedBlog) {
-                return response.status(401).json({error : "invalid blog id"})
+                return response.status(401).json({ error : 'invalid blog id' })
             }
-            
+
             return response.status(201).json(updatedBlog)
         }
         catch(error){
@@ -98,16 +97,16 @@ blogsRouter.put('/:id', async (request, response, next) => {
     }
 })
 
-blogsRouter.delete("/:id", async (request, response, next) => {
+blogsRouter.delete('/:id', async (request, response, next) => {
     try{
         if(!request.userId){
-            return response.status(401).json({error : 'token missing or invalid'})
+            return response.status(401).json({ error : 'token missing or invalid' })
         }
 
-        const blog = await Blog.findOne({_id : request.params.id, user : {_id : request.userId}})
-        
+        const blog = await Blog.findOne({ _id : request.params.id, user : { _id : request.userId } })
+
         if(!blog) {
-            return response.status(401).json({error : "invalid blog id"})
+            return response.status(401).json({ error : 'invalid blog id' })
         }
         await blog.remove()
         response.status(204).end()
