@@ -1,0 +1,70 @@
+POST http://localhost:3003/api/blogs/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1vaGFuYmsiLCJpZCI6IjYzMzgwMjJjNjM2MmRiN2JhNTNjYTcxNiIsImlhdCI6MTY2NDYxNTQzN30.84Vb4oUOP_nXSc5LccH0Bpyex1yEJJttlD3yTbzbmQo
+
+{
+    "title": "React patterns",
+    "author": "Michael Chan",
+    "url": "https://reactpatterns.com/",
+    "likes": 7
+}
+
+###
+POST http://localhost:3003/api/blogs/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1vaGFuYmsiLCJpZCI6IjYzMzgwMjJjNjM2MmRiN2JhNTNjYTcxNiIsImlhdCI6MTY2NDYxNTQzN30.84Vb4oUOP_nXSc5LccH0Bpyex1yEJJttlD3yTbzbmQo
+
+{
+    "title": "Go To Statement Considered Harmful",
+    "author": "Edsger W. Dijkstra",
+    "url": "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+    "likes": 5
+}
+
+###
+POST http://localhost:3003/api/blogs/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5hdmVlbmxzIiwiaWQiOiI2MzM4MDI3MDYzNjJkYjdiYTUzY2E3MWEiLCJpYXQiOjE2NjQ2MTU0OTN9.kABxE5UketuienlAgFLYH3prPEhN_GIK4ZMa27XCCMg
+
+{
+    "title": "Canonical string reduction",
+    "author": "Edsger W. Dijkstra",
+    "url": "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+    "likes": 12
+}
+
+###
+POST http://localhost:3003/api/blogs/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNoZXRhbnQiLCJpZCI6IjYzMzgwMjcxNjM2MmRiN2JhNTNjYTcxZCIsImlhdCI6MTY2NDYxNTUyMX0.WUdEMpZlGKg2VcbnkND5OuoXDulBamjDH2h5qrB0w18
+
+{
+    "title": "First class tests",
+    "author": "Robert C. Martin",
+    "url": "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
+    "likes": 10
+}
+
+###
+POST http://localhost:3003/api/blogs/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNoZXRhbnQiLCJpZCI6IjYzMzgwMjcxNjM2MmRiN2JhNTNjYTcxZCIsImlhdCI6MTY2NDYxNTUyMX0.WUdEMpZlGKg2VcbnkND5OuoXDulBamjDH2h5qrB0w18
+
+{
+    "title": "TDD harms architecture",
+    "author": "Robert C. Martin",
+    "url": "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
+    "likes": 0
+}
+
+###
+POST http://localhost:3003/api/blogs/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InByYWt1IiwiaWQiOiI2MzM4MDI3NDYzNjJkYjdiYTUzY2E3MjAiLCJpYXQiOjE2NjQ2MTU1NDN9.No3vaidCntJxJeLcTcN9nuYB-vK2Ctzpczlo03UvquA
+
+{
+    "title": "Type wars",
+    "author": "Robert C. Martin",
+    "url": "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
+    "likes": 2
+}

@@ -1,0 +1,10 @@
+PUT http://localhost:3003/api/blogs/63380a8bf51f4f51479bace0
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1vaGFuYmsiLCJpZCI6IjYzMzgwMjJjNjM2MmRiN2JhNTNjYTcxNiIsImlhdCI6MTY2NDYxNTQzN30.84Vb4oUOP_nXSc5LccH0Bpyex1yEJJttlD3yTbzbmQo
+
+{
+ "title" : "first blog update veriosn 5.0",
+ "author" : "mohan krishna",
+ "url" : "https://www.google.com",
+ "likes" : 45
+}

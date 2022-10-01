@@ -1,0 +1,34 @@
+POST http://localhost:3003/login/
+Content-Type: application/json
+
+{
+ "username" : "mohanbk",
+ "password" : "123456"
+}
+
+###
+POST http://localhost:3003/login/
+Content-Type: application/json
+
+{
+ "username" : "naveenls",
+ "password" : "123asd456"
+}
+
+###
+POST http://localhost:3003/login/
+Content-Type: application/json
+
+{
+ "username" : "chetant",
+ "password" : "fdsfdsf"
+}
+
+###
+POST http://localhost:3003/login/
+Content-Type: application/json
+
+{
+ "username" : "praku",
+ "password" : "1234asdasd56"
+}

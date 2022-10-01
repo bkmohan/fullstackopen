@@ -1,0 +1,38 @@
+POST http://localhost:3003/api/users/
+Content-Type: application/json
+
+{
+ "name" : "mohan krishna",
+ "username" : "mohanbk",
+ "password" : "123456"
+}
+
+#####
+POST http://localhost:3003/api/users/
+Content-Type: application/json
+
+{
+ "name" : "naveen",
+ "username" : "naveenls",
+ "password" : "123asd456"
+}
+
+#####
+POST http://localhost:3003/api/users/
+Content-Type: application/json
+
+{
+ "name" : "chetan reddy",
+ "username" : "chetant",
+ "password" : "fdsfdsf"
+}
+
+#####
+POST http://localhost:3003/api/users/
+Content-Type: application/json
+
+{
+ "name" : "prakash k",
+ "username" : "praku",
+ "password" : "1234asdasd56"
+}
